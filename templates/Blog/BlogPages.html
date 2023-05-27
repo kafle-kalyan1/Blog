@@ -1,0 +1,33 @@
+{% extends "home/index.html" %}
+{% load static %}
+
+ {% block title %} <title>   Blog | {{blog.bTitle}}   </title>  {% endblock title %}
+
+
+
+   {% block container %}
+   <a href="/blog" class="btn btn-outline-secondary">Back</a>
+   {% block content %}
+   <div class="container py-4">
+     <div class="row">
+       <div class="col-lg-8 offset-lg-2">
+         <div class="card">
+            <div class="text-center">
+
+                <img src="{{ blog.coverImage.url }}" class="card-img-top-3 text-center" height="400px" width="50%" alt="Blog Cover Image">
+            </div>
+           <div class="card-body">
+             <h1 class="card-title">{{ blog.title }}</h1>
+             <p class="card-text text-muted">By {{ blog.author }}</p>
+             <p class="card-text text-muted">Published: {{ blog.datetime }}</p>
+             <hr>
+             <p class="card-text">{{ blog.description|safe  }}</p>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ {% endblock %}
+{% endblock container %}
+
+

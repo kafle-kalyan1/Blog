@@ -1,0 +1,90 @@
+{% extends  "home/index.html" %}
+ {% block title %} <title>   Blog | Contact   </title>  {% endblock title %}
+ {% block container %}
+
+
+ {% for message in messages %}
+ <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong> {{ message.tags }}:  </strong> {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+ {% endfor %}
+
+
+ 
+ <div class='container'>
+
+    <h2 class="h1-responsive font-weight-bold text-center my-4">Contact us</h2>
+
+    <div class="row">
+
+        <div class="col-md-9 mb-md-10">
+            <form id="contact-form" name="contact-form" action="/contact/" method="POST">{% csrf_token %}
+
+                <!--Grid row-->
+                <div class="row" >
+
+                    <!--Grid column-->
+                    <div class="col-md-6 mb-4">
+                        <div class="md-form mb-10">
+                            <input type="text" placeholder="Enter Your Name" id="name" name="name" class="form-control">
+
+                        </div>
+                    </div>
+                    <!--Grid column-->
+
+                    <!--Grid column-->
+                    <div class="col-md-6 mb-4">
+                        <div class="md-form mb-0">
+                            <input type="text" id="email" placeholder="Enter Your Email" name="email" class="form-control">
+                           
+                        </div>
+                    </div>
+                    <!--Grid column-->
+
+                </div>
+                <!--Grid row-->
+
+                <!--Grid row-->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="md-form mb-0">
+                            <input type="text" id="phone" placeholder="Enter your Mobile no." name="phone" class="form-control mb-7">
+                           
+                        </div>
+                    </div>
+                </div>
+                <!--Grid row-->
+
+                <!--Grid row-->
+                <div class="row mb-4">
+
+                    <!--Grid column-->
+                    <div class="col-md-12">
+
+                        <div class="md-form">
+                            <textarea type="text" placeholder="Enter Your Message here!" id="message" name="message" rows="5" class="form-control md-textarea mb-7"></textarea>
+                          
+                        </div>
+
+                    </div>
+                </div>
+                <!--Grid row-->
+
+            </form>
+
+            <div class="text-center text-md-left">
+                <a class="btn btn-primary" onclick="document.getElementById('contact-form').submit();">Send</a>
+            </div>
+            <div class="status"></div>
+        </div>
+    </div>
+
+</section>
+<!--Section: Contact v.2-->
+
+</div>
+
+
+
+ {% endblock container %}

@@ -1,0 +1,41 @@
+# Ignore compiled Python files
+*.pyc
+
+# Ignore the virtual environment directory (if using virtualenv)
+venv/
+env/
+
+# Ignore the project's static files (if collected statically)
+static/
+
+# Ignore the project's media files (if using file uploads)
+media/
+
+# Ignore the database file (if using SQLite)
+*.db
+
+# Ignore the local settings file
+local_settings.py
+
+# Ignore IDE-specific files (if using PyCharm, VS Code, or other IDEs)
+.idea/
+.vscode/
+
+# Ignore log files
+*.log
+
+# Ignore cache directories
+__pycache__/
+.cache/
+
+# Ignore dependency directories (if using pipenv or poetry)
+/.venv/
+/.pipenv/
+/.poetry/
+
+# Ignore deployment-specific files (if using Heroku, AWS, etc.)
+*.env
+.DS_Store
+
+# Ignore sensitive or confidential information (e.g., secret keys, passwords)
+secrets.txt

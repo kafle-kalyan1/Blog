@@ -1,0 +1,57 @@
+{% extends "home/index.html" %}
+{% block container %}
+{% block title %} <title>   Blog | Blogs   </title>  {% endblock title %}
+
+<div class="container px-4 py-5" id="hanging-icons">
+  <h1 class="pb-2 border-bottom">Blogs</h1>
+
+
+    <div class="row">
+{% for blog in AllBlogs %}
+          <div class="col-lg-4" >
+            <div class="card mb-4" style="height:430px;" >
+              <img src="{{ blog.coverImage.url }}" class="card-img-top" alt="Blog Cover Image" style="max-height:200px;" >
+              <div class="card-body">
+                <h1 class="card-title"><h2>{{ blog.title|truncatechars_html:20 }}</h2></h1>
+                <p class="card-text">{{ blog.description|truncatechars_html:80|striptags|safe  }}</p>
+              </div>
+              <div class="card-footer">
+                <div class="d-flex justify-content-between">
+                  <p class="text-muted">Author: {{ blog.author }}</p>
+                  <p class="text-muted">Published: {{ blog.datetime }}</p>
+                </div>
+                <a href="/blog/{{blog.id}}" class="btn btn-outline-primary" >Read More</a>
+              </div>
+            </div>
+          </div>
+          
+          
+          
+          
+          {% endfor %}
+        </div>
+      
+    </div>
+</div>
+
+<style>
+
+.col{
+  width: 300px;
+  display: flex;
+}
+.col2{
+  width: 270px;
+  align-items: center;
+}
+
+</style>
+
+
+
+
+
+
+{% endblock container %}
+
+
