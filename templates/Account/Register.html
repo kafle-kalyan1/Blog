@@ -1,0 +1,54 @@
+{% extends "home/index.html" %}
+{% block container %}
+{% block title %} <title>   Register | Blogs   </title>  {% endblock title %}
+
+
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+   <strong> {{ message.tags }}:  </strong> {{ message }}
+   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+ </div>
+{% endfor %} 
+
+<div class="container">
+   <div class="row justify-content-center mt-5">
+     <div class="col-lg-4 col-md-6 col-sm-6">
+       <div class="card shadow">
+         <div class="card-title text-center border-bottom">
+           <h2 class="p-3">Register</h2>
+         </div>
+         <div class="card-body">
+           <form action="registerHandller" method="post" >
+            {% csrf_token %}
+            <div class="mb-4">
+               <label for="email" class="form-label">Email</label>
+               <input type="text" class="form-control" name="email" required>
+             </div>
+             <div class="col-sm-12 d-flex justify-content-between" >
+              <div class="mb-4 col-sm-5">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" class="form-control" name="first_name" required />
+              </div>
+              <div class="mb-4 col-sm-5">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input type="text" class="form-control" name="last_name" required />
+              </div>
+             </div>
+             <div class="mb-4">
+               <label for="password" class="form-label">Password</label>
+               <input type="password" class="form-control" name="password" required />
+             </div>
+             <div class="mb-4">
+            </div>
+            <div class="d-grid">
+               <button type="submit" class="btn text-light btn-primary">Register</button>
+            </div>
+         </form>
+         <p>Already have an account? 
+         </p>
+         <a href="login" class="btn btn-secondary">Login</a>
+         </div>
+       </div>
+     </div>
+   </div>
+{% endblock container %}

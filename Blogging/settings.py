@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'Blog.apps.BlogConfig',
      'tinymce',
-     
+     'Account',
 
 ]
 
@@ -88,7 +88,7 @@ DATABASES = {
     # SQL database
     'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'blog',
+            'NAME': 'Blog',
             'USER': 'root',
             'PASSWORD': '',
             'HOST': '127.0.0.1',
