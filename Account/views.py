@@ -14,13 +14,13 @@ def login_page(request):
             messages.error(request, 'User Not found please register')
             return redirect('login')
         # authencate password now
-        userAuth = authenticate(email=email, password=password)
-        print(userAuth)
-        if userAuth is None:
+        user = authenticate(request, username=email, password=password)
+        print(user)
+        if user is None:
             messages.warning(request, 'Incorrect Password')
             return redirect('login')
         else:
-            login(request, userAuth)
+            login(request, user)
             return redirect('../blog')
 
     return render(request, "Account/Login.html")
@@ -39,6 +39,7 @@ def registerHandller(request):
             return redirect('registerHandller')
 
         user = User.objects.create(
+           username = email,
             first_name=first_name,
             last_name = last_name,
             email=email,

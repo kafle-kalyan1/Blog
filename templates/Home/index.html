@@ -45,11 +45,32 @@
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
           </div>
+          <div class="m-1" >
+            {% if request.user.is_authenticated %}
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                {{request.user}}
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">View Profile</a></li>
+                <li><a class=" dropdown-item" href="#">Logout</a></li>
+                
+              </ul>
+            </div>
+            {% else %}
+  
+          
+            <div>
+              <a class="btn btn-success me-5 mx-4" href="{% url 'login' %}" >
+                Login
+              </a>
+            </div> 
+            {% endif %}
+  
+        </nav>
+          </div>
         </div>
-       <a class="me-5 mx-4" href="{% url 'login' %}" >
-          Login
-        </a>
-      </nav>
+         
 
       
   </header>

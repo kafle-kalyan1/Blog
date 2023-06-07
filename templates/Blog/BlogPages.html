@@ -1,33 +1,76 @@
-{% extends "home/index.html" %}
-{% load static %}
-
- {% block title %} <title>   Blog | {{blog.bTitle}}   </title>  {% endblock title %}
-
-
-
-   {% block container %}
-   <a href="/blog" class="btn btn-outline-secondary">Back</a>
-   {% block content %}
-   <div class="container py-4">
-     <div class="row">
-       <div class="col-lg-8 offset-lg-2">
-         <div class="card">
-            <div class="text-center">
-
-                <img src="{{ blog.coverImage.url }}" class="card-img-top-3 text-center" height="400px" width="50%" alt="Blog Cover Image">
+{% extends "home/index.html" %} {% load static %} {% block title %}
+<title>Blog | {{blog.bTitle}}</title> {% endblock title %} {% block container %}
+<a href="/blog" class="btn btn-outline-secondary position-sticky">Back</a>
+{% block content %}
+<div class="container py-4">
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <div class="card">
+        <div class="text-center">
+          <img
+            src="{{ blog.coverImage.url }}"
+            class="card-img-top-3 text-center"
+            height="400px"
+            width="50%"
+            alt="Blog Cover Image"
+          />
+        </div>
+        <div class="card-body">
+          <h1 class="card-title">{{ blog.title }}</h1>
+          <p class="card-text text-muted">By {{ blog.author }}</p>
+          <p class="card-text text-muted">Published: {{ blog.datetime }}</p>
+          <hr />
+          <p class="card-text">{{ blog.description|safe }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+        <div class="card-body p-4">
+          <div class="form-outline mb-4">
+            <input type="text" id="addANote" class="form-control" placeholder="Type comment..." />
+            <label class="form-label" for="addANote">+ Add a note</label>
+          </div>
+  
+          <div class="card mb-4">
+            <div class="card-body">
+              <p>Type your note, and hit enter to add it</p>
+  
+              <div class="d-flex justify-content-between">
+                <div class="d-flex flex-row align-items-center">
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(4).webp" alt="avatar" width="25"
+                    height="25" />
+                  <p class="small mb-0 ms-2">Martha</p>
+                </div>
+                <div class="d-flex flex-row align-items-center m-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" id="upp" fill="currentColor" onclick="upvote()" class="bi bi-arrow-up-circle m-1" style="cursor:pointer" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+                  </svg>
+                  <p id="number" class="small text-muted mb-0">3</p>
+                </div>
+              </div>
             </div>
-           <div class="card-body">
-             <h1 class="card-title">{{ blog.title }}</h1>
-             <p class="card-text text-muted">By {{ blog.author }}</p>
-             <p class="card-text text-muted">Published: {{ blog.datetime }}</p>
-             <hr>
-             <p class="card-text">{{ blog.description|safe  }}</p>
-           </div>
-         </div>
-       </div>
-     </div>
-   </div>
- {% endblock %}
-{% endblock container %}
+          </div>
+  
+        
+         
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function upvote(){
+    let upp = document.getElementById("upp")
+    upp.style.color = "red"
+    let votes = document.getElementById("number")
+    noVotes = parseInt((votes.innerText))
+    votes.innerText = noVotes+1
+  }
+</script>
 
-
+{% endblock %} {% endblock container %}
