@@ -1,5 +1,9 @@
-{% extends "home/index.html" %} {% load static %} {% block title %}
-<title>Blog | {{blog.bTitle}}</title> {% endblock title %} {% block container %}
+{% extends "home/index.html" %}
+{% load static %}
+{% block title %}
+<title>{{ blog.title }}</title>
+{% endblock title %}
+{% block container %}
 <a href="/blog" class="btn btn-outline-secondary position-sticky">Back</a>
 {% block content %}
 <div class="container py-4">
@@ -29,34 +33,55 @@
     <div class="col-md-8 col-lg-6">
       <div class="card shadow-0 border" style="background-color: #f0f2f5;">
         <div class="card-body p-4">
-          <div class="form-outline mb-4">
-            <input type="text" id="addANote" class="form-control" placeholder="Type comment..." />
-            <label class="form-label" for="addANote">+ Add a note</label>
+
+          {% if request.user.is_authenticated %}
+
+          <form class="form-outline mb-4" action="{% url 'handleComment' %}" method="post">
+            {% csrf_token %}
+            <input type="text" id="addANote" name="comment" class="form-control" placeholder="Type comment..." />
+            <input type="hidden" name="blog_id" value="{{ blog.id }}" />
+            <input type="submit" class="btn btn-outline-primary"></input>
+          </form>
+
+          {% else %}
+
+          <div>
+            <a class="btn btn-success me-5 mx-4" href="{% url 'login' %}">
+              Login
+            </a>
+            Please login to comment
           </div>
-  
+          {% endif %}
+
+
           <div class="card mb-4">
             <div class="card-body">
               <p>Type your note, and hit enter to add it</p>
-  
-              <div class="d-flex justify-content-between">
-                <div class="d-flex flex-row align-items-center">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(4).webp" alt="avatar" width="25"
-                    height="25" />
-                  <p class="small mb-0 ms-2">Martha</p>
-                </div>
-                <div class="d-flex flex-row align-items-center m-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" id="upp" fill="currentColor" onclick="upvote()" class="bi bi-arrow-up-circle m-1" style="cursor:pointer" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
-                  </svg>
-                  <p id="number" class="small text-muted mb-0">3</p>
-                </div>
+
+              {% if comments|length == 0 %}
+              No comments
+              {% else %}
+              {% for comment in comments %}
+              <div class="comment-container" id="comment-{{ comment.id }}">
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex flex-row align-items-center">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(4).webp" alt="avatar" width="25"
+                      height="25" />
+                      <p class="small mb-0 ms-2">{{ comment.user.username }}</p>
+                    </div>
+                    <div class"d-flex flex-row align-items-center">
+                      <p>{{ comment.content }}</p>
+                    </div>
+                    <div class="d-flex flex-row align-items-right m-1">
+                    <i id="upvote-icon-{{ comment.id }}" class="fas fa-arrow-up m-1" style="cursor:pointer" onclick="upvote({{ comment.id }})"></i>
+                    <p id="upvotes-{{ comment.id }}" class="small text-muted mb-0">{{ comment.upvotes }}</p>
+                    <i id="downvote-icon-{{ comment.id }}" class="fas fa-arrow-down m-1" style="cursor:pointer" onclick="downvote({{ comment.id }})"></i>
+                    <p id="downvotes-{{ comment.id }}" class="small text-muted mb-0">{{ comment.downvotes }}</p>
+                  </div> 
               </div>
+              {% endfor %}
+              {% endif %}
             </div>
-          </div>
-  
-        
-         
-  
           </div>
         </div>
       </div>
@@ -64,13 +89,57 @@
   </div>
 </div>
 <script>
-  function upvote(){
-    let upp = document.getElementById("upp")
-    upp.style.color = "red"
-    let votes = document.getElementById("number")
-    noVotes = parseInt((votes.innerText))
-    votes.innerText = noVotes+1
+  function upvote(commentId) {
+    let upvoteIcon = document.getElementById(`upvote-icon-${commentId}`);
+    let upvotesElement = document.getElementById(`upvotes-${commentId}`);
+
+    upvoteIcon.style.color = "red";
+    let upvotes = parseInt(upvotesElement.innerText);
+    upvotesElement.innerText = upvotes + 1;
+
+    // Make AJAX POST request to upvote_comment view
+    $.ajax({
+      type: "POST",
+      url: "{% url 'upvote_comment' %}",
+      data: {
+        comment_id: commentId,
+        csrfmiddlewaretoken: "{{ csrf_token }}"
+      },
+      success: function (response) {
+        // Update upvotes count with the updated value from the server
+        upvotesElement.innerText = response.upvotes;
+      },
+      error: function (xhr, status, error) {
+        console.log(error);
+      }
+    });
+  }
+
+  function downvote(commentId) {
+    let downvoteIcon = document.getElementById(`downvote-icon-${commentId}`);
+    let downvotesElement = document.getElementById(`downvotes-${commentId}`);
+
+    downvoteIcon.style.color = "red";
+    let downvotes = parseInt(downvotesElement.innerText);
+    downvotesElement.innerText = downvotes + 1;
+
+    // Make AJAX POST request to downvote_comment view
+    $.ajax({
+      type: "POST",
+      url: "{% url 'downvote_comment' %}",
+      data: {
+        comment_id: commentId,
+        csrfmiddlewaretoken: "{{ csrf_token }}"
+      },
+      success: function (response) {
+        // Update downvotes count with the updated value from the server
+        downvotesElement.innerText = response.downvotes;
+      },
+      error: function (xhr, status, error) {
+        console.log(error);
+      }
+    });
   }
 </script>
-
-{% endblock %} {% endblock container %}
+{% endblock %}
+{% endblock container %}

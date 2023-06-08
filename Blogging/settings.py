@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-sb4ambg1+t5xhoj^!diwpknh8)ex94a%)se5m6jl7@q5d6_)0v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -87,14 +87,30 @@ DATABASES = {
     # }
     # ,
     # SQL database
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'Blog',
+    #     'USER': 'root',
+    #     'PASSWORD': '',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '3306',
+    # }
+
+    # connection to postgress
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Blog',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-    }
+         'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'xvhDY209BSutkrfiQJwz',
+        'HOST': 'containers-us-west-165.railway.app',
+        'PORT': '7080',
+        
+    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+    
 }
 
 
