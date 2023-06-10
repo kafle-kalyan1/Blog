@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
 from django.contrib import messages
 # import authencate
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login , logout
 
 
 # Create your views here.
@@ -52,3 +52,8 @@ def registerHandller(request):
         return redirect('login')
     return render(request, "Account/Register.html")
      
+def logoutN(request):
+    if 'user' in request.session:
+        del request.session['user']
+    logout(request)
+    return redirect('login')

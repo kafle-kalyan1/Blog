@@ -54,16 +54,18 @@ from django.http import JsonResponse
 
 def upvote_comment(request):
     if request.method == "POST":
-        comment_id = request.POST.get('comment_id')
-        comment = Comment.objects.get(id=comment_id)
-        comment.upvotes += 1
-        comment.save()
-        return JsonResponse({'upvotes': comment.upvotes})
+        if 'user' in request.session:
+            comment_id = request.POST.get('comment_id')
+            comment = Comment.objects.get(id=comment_id)
+            comment.upvotes += 1
+            comment.save()
+            return JsonResponse({'upvotes': comment.upvotes})
 
 def downvote_comment(request):
     if request.method == "POST":
-        comment_id = request.POST.get('comment_id')
-        comment = Comment.objects.get(id=comment_id)
-        comment.downvotes += 1
-        comment.save()
-        return JsonResponse({'downvotes': comment.downvotes})
+        if 'user' in request.session:
+            comment_id = request.POST.get('comment_id')
+            comment = Comment.objects.get(id=comment_id)
+            comment.downvotes += 1
+            comment.save()
+            return JsonResponse({'downvotes': comment.downvotes})
