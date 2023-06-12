@@ -9,7 +9,7 @@ class Blog(models.Model):
     description = HTMLField()
     datetime = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    coverImage = models.ImageField(upload_to='Static/Blogs')
+    coverImage = models.ImageField(upload_to='static/Blogs')
     
     def __str__(self):
         return self.title
