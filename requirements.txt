@@ -9,7 +9,7 @@ django-tinymce==3.6.1
 idna==3.4
 Markdown==3.4.3
 Pillow==9.5.0
-psycopg2==2.9.6
+psycopg2-binary==2.9.6
 requests==2.31.0
 six==1.16.0
 sqlparse==0.4.4
