@@ -21,7 +21,7 @@ def login_page(request):
             return redirect('login')
         else:
             login(request, user)
-            return redirect('../blog')
+            return redirect('../blog/') 
 
     return render(request, "Account/Login.html")
 
