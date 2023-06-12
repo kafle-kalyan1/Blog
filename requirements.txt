@@ -3,7 +3,6 @@ Django==4.2.1
 django-markdownx==4.0.2
 django-tinymce==3.6.1
 Markdown==3.4.3
-mysqlclient==2.1.1
 Pillow==9.5.0
 psycopg2==2.9.6
 sqlparse==0.4.4
