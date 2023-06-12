@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 from django.contrib.auth.models import User
 from tinymce.models import HTMLField
+from cloudinary.models import CloudinaryField
 
 class Blog(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -9,7 +10,9 @@ class Blog(models.Model):
     description = HTMLField()
     datetime = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    coverImage = models.ImageField(upload_to='static/Blogs')
+    # coverImage = models.ImageField(upload_to='static/Blogs')
+    coverImage = CloudinaryField('image')
+
     
     def __str__(self):
         return self.title

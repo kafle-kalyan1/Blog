@@ -14,6 +14,12 @@ from django.contrib.messages import constants as messages
 import os
 from pathlib import Path
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -45,6 +51,8 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'Blog',
     'Account',
+    'cloudinary',
+    'cloudinary_storage',
 
 ]
 
@@ -177,3 +185,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
+
+cloudinary.config( 
+  cloud_name = "dfvekucsr", 
+  api_key = "836751785545774", 
+  api_secret = "ZEfF3oTXFqCMxp_DsyXBD4kA5rg" 
+)
+
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage' 
+# STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
+
