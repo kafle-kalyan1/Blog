@@ -4,7 +4,7 @@
 <title>{{ blog.title }}</title>
 {% endblock title %}
 {% block container %}
-<a href="/blog" class="btn btn-outline-secondary">Back</a>
+<a href="{% url 'blog' %}" class="btn btn-outline-secondary">Back</a>
 {% block content %}
 <div class="container py-4">
   <div class="row">
