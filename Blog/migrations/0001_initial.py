@@ -3,7 +3,7 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-import tinymce.models
+# import tinymce.models
 import uuid
 
 
@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('title', models.CharField(max_length=70)),
-                ('description', tinymce.models.HTMLField()),
+                # ('description', tinymce.models.HTMLField()),
                 ('datetime', models.DateTimeField(auto_now_add=True)),
                 ('coverImage', models.ImageField(upload_to='Static/Blogs')),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),

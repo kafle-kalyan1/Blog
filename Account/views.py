@@ -1,9 +1,10 @@
+
+
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
 from django.contrib import messages
 # import authencate
 from django.contrib.auth import authenticate, login , logout
-
 
 # Create your views here.
 def login_page(request):

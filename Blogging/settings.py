@@ -41,7 +41,8 @@ ALLOWED_HOSTS = [".vercel.app", ".now.sh", "127.0.0.1", "192.168.1.2",]
 # Application definition
 
 INSTALLED_APPS = [
-    'tinymce',
+    
+    "ckeditor",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -116,10 +117,10 @@ DATABASES = {
         'PORT': '7080',
 
     },
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 
 }
 
@@ -148,7 +149,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kathmandu'
 
 USE_I18N = True
 
@@ -160,12 +161,21 @@ STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 
+# MEDIA_ROOT = ''
+# MEDIA_URL = '/media/'
 
-# STATIC_URL = 'Static/'
-# STATICFILES_DIRS = [
-#     BASE_DIR / "Static",
-# ]
-# # STATIC_URL = '/static/'
+# https://stackoverflow.com/questions/29186343/django-ckeditor
+# CKEditor settings
+# CKEDITOR_UPLOAD_PATH = "uploads/"
+# CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+# #This ensures you have all toolbar icons
+# CKEDITOR_CONFIGS = {
+#     'default': {
+#         'toolbar': None, 
+#         },
+#     }
+
+# STATIC_URL = '/static/'
     
 # # STATICFILES_DIRS = [
 # #     os.path.join(BASE_DIR, 'static'),

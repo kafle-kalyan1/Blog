@@ -3,10 +3,13 @@ certifi==2023.5.7
 charset-normalizer==3.1.0
 cloudinary==1.33.0
 Django==4.2.1
+django-ckeditor==6.5.1
 django-cloudinary-storage==0.3.0
+django-js-asset==2.0.0
 django-markdownx==4.0.2
 django-tinymce==3.6.1
 idna==3.4
+jsmin==3.0.1
 Markdown==3.4.3
 Pillow==9.5.0
 psycopg2-binary==2.9.6
