@@ -4,9 +4,22 @@ from django.contrib import messages
 from django.shortcuts import render , HttpResponse
 from home.models import ContactData
 from datetime import datetime
+from Blog.models import BlogView, Blog
+from django.db import models
 
 def home(request):
-    return render(request, 'Home/home.html')
+
+    most_viewed = BlogView.objects.order_by('-views')[:10]
+
+    recent_blogs = Blog.objects.order_by('-datetime')[:10]
+
+    context = {
+        'most_viewed': most_viewed,
+        'recent_blogs': recent_blogs
+    }
+
+    return render(request, 'Home/home.html', context)
+
 
 def about(request):
     return render(request, 'Home/about.html')

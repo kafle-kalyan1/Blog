@@ -31,11 +31,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-sb4ambg1+t5xhoj^!diwpknh8)ex94a%)se5m6jl7@q5d6_)0v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = False
+# DEBUG = True
+DEBUG = False
 
 # ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = [".vercel.app", ".now.sh", "127.0.0.1", "192.168.1.2",]
+ALLOWED_HOSTS = [".vercel.app", ".now.sh", "127.0.0.1", "localhost","192.168.1.9"]
 
 
 # Application definition
@@ -112,15 +112,23 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'xvhDY209BSutkrfiQJwz',
-        'HOST': 'containers-us-west-165.railway.app',
-        'PORT': '7080',
-
+        'PASSWORD': 'li5LXOcDCTykkHRmPN9u',
+        'HOST': 'containers-us-west-118.railway.app',
+        'PORT': '7454',
     },
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'railway',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'xvhDY209BSutkrfiQJwz',
+    #     'HOST': 'containers-us-west-165.railway.app',
+    #     'PORT': '7080',
+
+    # },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 
 }
 

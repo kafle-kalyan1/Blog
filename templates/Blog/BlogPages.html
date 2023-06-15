@@ -6,6 +6,13 @@
 {% endblock title %}
 
 {% block container %}
+
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+   <strong> {{ message.tags }}:  </strong> {{ message }}
+   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+ </div>
+{% endfor %}
 <div class="container py-4">
   <div class="row">
     <div class="col-lg-8 offset-lg-2">
@@ -13,6 +20,7 @@
         <img src="{{ blog.coverImage.url }}" class="card-img-top" alt="Blog Cover Image">
         <div class="card-body">
           <p class="card-text text-muted">{{ blog.datetime|date:"M"|upper }} {{ blog.datetime|date:"dS" }} '{{ blog.datetime|date:"y" }}</p>
+          <p class="card-text">Total Views: {{ views }}</p>
 
           <h1 class="card-title">{{ blog.title }}</h1>
           <hr>
@@ -46,21 +54,22 @@
                 <p class="text-muted">No comments</p>
               {% else %}
                 {% for comment in comments %}
-                  <div class="card mb-3">
-                    <div class="card-body">
-                      <div class="d-flex align-items-center">
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(4).webp" alt="avatar" width="30" height="30" class="rounded-circle me-2">
-                        <p class="mb-0"><strong>{{ comment.user.username }}</strong></p>
-                      </div>
-                      <p class="mt-2">{{ comment.content }}</p>
-                      <div class="d-flex align-items-center">
-                        <i id="upvote-icon-{{ comment.id }}" class="fas fa-arrow-up mr-1" style="cursor:pointer" onclick="upvote({{ comment.id }})"></i>
-                        <p id="upvotes-{{ comment.id }}" class="small text-muted mb-0 me-3">{{ comment.upvotes }}</p>
-                        <i id="downvote-icon-{{ comment.id }}" class="fas fa-arrow-down mr-1" style="cursor:pointer" onclick="downvote({{ comment.id }})"></i>
-                        <p id="downvotes-{{ comment.id }}" class="small text-muted mb-0">{{ comment.downvotes }}</p>
-                      </div>
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center">
+                      <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(4).webp" alt="avatar" width="30" height="30" class="rounded-circle me-2">
+                      <p class="mb-0"><strong>{{ comment.user.username }}</strong></p>
+                    </div>
+                    <p class="mt-2">{{ comment.content }}</p>
+                    <div class="d-flex align-items-center">
+                      <i id="upvote-icon-{{ comment.id }}" class="fas fa-arrow-up mr-1" style="cursor:pointer; color: {% if comment.upvoted %}red{% else %}black{% endif %}" onclick="upvote({{ comment.id }})">
+                      </i>
+                      <p id="upvotes-{{ comment.id }}" class="small text-muted mb-0 me-3">{{ comment.upvotes }}</p>
+                      <i id="downvote-icon-{{ comment.id }}" class="fas fa-arrow-down mr-1" style="cursor:pointer; color: {% if comment.downvoted %}red{% else %}black{% endif %}" onclick="downvote({{ comment.id }})"></i>
+                      <p id="downvotes-{{ comment.id }}" class="small text-muted mb-0">{{ comment.downvotes }}</p>
                     </div>
                   </div>
+                </div>
                 {% endfor %}
               {% endif %}
             </div>
@@ -76,56 +85,88 @@
   function upvote(commentId) {
     let upvoteIcon = document.getElementById(`upvote-icon-${commentId}`);
     let upvotesElement = document.getElementById(`upvotes-${commentId}`);
-
-    upvoteIcon.style.color = "red";
-    let upvotes = parseInt(upvotesElement.innerText);
-    upvotesElement.innerText = upvotes + 1;
-
-    // Make AJAX POST request to upvote_comment view
-    $.ajax({
-      type: "POST",
-      url: "{% url 'upvote_comment' %}",
-      data: {
-        comment_id: commentId,
-        csrfmiddlewaretoken: "{{ csrf_token }}"
-      },
-      success: function (response) {
-        // Update upvotes count with the updated value from the server
-        upvotesElement.innerText = response.upvotes;
-      },
-      error: function (xhr, status, error) {
-        console.log(error);
-      }
-    });
-  }
-
-  function downvote(commentId) {
     let downvoteIcon = document.getElementById(`downvote-icon-${commentId}`);
     let downvotesElement = document.getElementById(`downvotes-${commentId}`);
 
-    downvoteIcon.style.color = "red";
-    let downvotes = parseInt(downvotesElement.innerText);
-    downvotesElement.innerText = downvotes + 1;
+    // Check if the comment has already been downvoted by the user
+    if (downvoteIcon.style.color === "red") {
+      // Remove downvote
+      downvoteIcon.style.color = "black";
+      let downvotes = parseInt(downvotesElement.innerText);
+      downvotesElement.innerText = downvotes - 1;
+    }
 
-    $.ajax({
-      type: "POST",
-      url: "{% url 'downvote_comment' %}",
-      data: {
-        comment_id: commentId,
-        csrfmiddlewaretoken: "{{ csrf_token }}"
-      },
-      success: function (response) {
-        downvotesElement.innerText = response.downvotes;
-      },
-      error: function (xhr, status, error) {
-        console.log(error);
-      }
-    });
+    let upvotes = parseInt(upvotesElement.innerText);
+    if (upvoteIcon.style.color === "red") {
+      // Remove upvote
+      upvoteIcon.style.color = "black";
+      upvotesElement.innerText = upvotes - 1;
+    } else {
+      // Add upvote
+      upvoteIcon.style.color = "red";
+      upvotesElement.innerText = upvotes + 1;
+
+      $.ajax({
+        type: "POST",
+        url: "{% url 'upvote_comment' %}",
+        data: {
+          comment_id: commentId,
+          csrfmiddlewaretoken: "{{ csrf_token }}"
+        },
+        success: function (response) {
+          console.log("Upvote successful");
+        },
+        error: function (xhr, status, error) {
+          console.log(error);
+        }
+      });
+    }
+  }
+
+  function downvote(commentId) {
+    let upvoteIcon = document.getElementById(`upvote-icon-${commentId}`);
+    let upvotesElement = document.getElementById(`upvotes-${commentId}`);
+    let downvoteIcon = document.getElementById(`downvote-icon-${commentId}`);
+    let downvotesElement = document.getElementById(`downvotes-${commentId}`);
+
+    // Check if the comment has already been upvoted by the user
+    if (upvoteIcon.style.color === "red") {
+      // Remove upvote
+      upvoteIcon.style.color = "black";
+      let upvotes = parseInt(upvotesElement.innerText);
+      upvotesElement.innerText = upvotes - 1;
+    }
+
+    let downvotes = parseInt(downvotesElement.innerText);
+    if (downvoteIcon.style.color === "red") {
+      // Remove downvote
+      downvoteIcon.style.color = "black";
+      downvotesElement.innerText = downvotes - 1;
+    } else {
+      // Add downvote
+      downvoteIcon.style.color = "red";
+      downvotesElement.innerText = downvotes + 1;
+
+      $.ajax({
+        type: "POST",
+        url: "{% url 'downvote_comment' %}",
+        data: {
+          comment_id: commentId,
+          csrfmiddlewaretoken: "{{ csrf_token }}"
+        },
+        success: function (response) {
+          console.log("Downvote successful");
+        },
+        error: function (xhr, status, error) {
+          console.log(error);
+        }
+      });
+    }
   }
 
   // Alert if comment exceeds 150 words
-  $(document).ready(function() {
-    $('form').submit(function() {
+  $(document).ready(function () {
+    $('form').submit(function () {
       const comment = $('#addANote').val();
       const wordCount = comment.split(' ').length;
 
@@ -136,5 +177,6 @@
     });
   });
 </script>
+
 
 {% endblock %}

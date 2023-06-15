@@ -14,7 +14,7 @@ class Blog(models.Model):
     datetime = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     coverImage = CloudinaryField('image')
-    views = models.PositiveIntegerField(default=0)
+
     
     # categories = models.ManyToManyField(Category)
     # is_published = models.BooleanField(default=False)
@@ -33,3 +33,14 @@ class Comment(models.Model):
     
     def __str__(self):
         return f'Comment by {self.user.username} on Blog #{self.blog.id}'
+
+class BlogView(models.Model):
+    blog = models.OneToOneField(Blog, on_delete=models.CASCADE)
+    views = models.PositiveIntegerField(default=0)
+
+class UpDown(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    upvotes = models.BooleanField(default=False)
+    downvotes = models.BooleanField(default=False)
+    
