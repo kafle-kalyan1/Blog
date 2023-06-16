@@ -13,6 +13,7 @@
    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
  </div>
 {% endfor %}
+
 <div class="container py-4">
   <div class="row">
     <div class="col-lg-8 offset-lg-2">
@@ -62,10 +63,9 @@
                     </div>
                     <p class="mt-2">{{ comment.content }}</p>
                     <div class="d-flex align-items-center">
-                      <i id="upvote-icon-{{ comment.id }}" class="fas fa-arrow-up mr-1" style="cursor:pointer; color: {% if comment.upvoted %}red{% else %}black{% endif %}" onclick="upvote({{ comment.id }})">
-                      </i>
+                      <i id="upvote-icon-{{ comment.id }}" class="fas fa-arrow-up mr-1 vote-icon {% if comment.upvoted %}upvoted{% endif %}" onclick="upvote({{ comment.id }})"></i>
                       <p id="upvotes-{{ comment.id }}" class="small text-muted mb-0 me-3">{{ comment.upvotes }}</p>
-                      <i id="downvote-icon-{{ comment.id }}" class="fas fa-arrow-down mr-1" style="cursor:pointer; color: {% if comment.downvoted %}red{% else %}black{% endif %}" onclick="downvote({{ comment.id }})"></i>
+                      <i id="downvote-icon-{{ comment.id }}" class="fas fa-arrow-down mr-1 vote-icon {% if comment.downvoted %}downvoted{% endif %}" onclick="downvote({{ comment.id }})"></i>
                       <p id="downvotes-{{ comment.id }}" class="small text-muted mb-0">{{ comment.downvotes }}</p>
                     </div>
                   </div>
@@ -75,6 +75,24 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-lg-8 offset-lg-2">
+      <h2 class="mb-4">Similar Posts</h2>
+      <div class="card-deck">
+        {% for post in similar_posts %}
+        <div class="card">
+          <img src="{{ post.coverImage.url }}" class="card-img-top" alt="Similar Post Image">
+          <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text">{{ post.description }}</p>
+            <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More</a>
+          </div>
+        </div>
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -89,21 +107,21 @@
     let downvotesElement = document.getElementById(`downvotes-${commentId}`);
 
     // Check if the comment has already been downvoted by the user
-    if (downvoteIcon.style.color === "red") {
+    if (downvoteIcon.classList.contains("downvoted")) {
       // Remove downvote
-      downvoteIcon.style.color = "black";
+      downvoteIcon.classList.remove("downvoted");
       let downvotes = parseInt(downvotesElement.innerText);
       downvotesElement.innerText = downvotes - 1;
     }
 
     let upvotes = parseInt(upvotesElement.innerText);
-    if (upvoteIcon.style.color === "red") {
+    if (upvoteIcon.classList.contains("upvoted")) {
       // Remove upvote
-      upvoteIcon.style.color = "black";
+      upvoteIcon.classList.remove("upvoted");
       upvotesElement.innerText = upvotes - 1;
     } else {
       // Add upvote
-      upvoteIcon.style.color = "red";
+      upvoteIcon.classList.add("upvoted");
       upvotesElement.innerText = upvotes + 1;
 
       $.ajax({
@@ -130,21 +148,21 @@
     let downvotesElement = document.getElementById(`downvotes-${commentId}`);
 
     // Check if the comment has already been upvoted by the user
-    if (upvoteIcon.style.color === "red") {
+    if (upvoteIcon.classList.contains("upvoted")) {
       // Remove upvote
-      upvoteIcon.style.color = "black";
+      upvoteIcon.classList.remove("upvoted");
       let upvotes = parseInt(upvotesElement.innerText);
       upvotesElement.innerText = upvotes - 1;
     }
 
     let downvotes = parseInt(downvotesElement.innerText);
-    if (downvoteIcon.style.color === "red") {
+    if (downvoteIcon.classList.contains("downvoted")) {
       // Remove downvote
-      downvoteIcon.style.color = "black";
+      downvoteIcon.classList.remove("downvoted");
       downvotesElement.innerText = downvotes - 1;
     } else {
       // Add downvote
-      downvoteIcon.style.color = "red";
+      downvoteIcon.classList.add("downvoted");
       downvotesElement.innerText = downvotes + 1;
 
       $.ajax({
@@ -178,5 +196,19 @@
   });
 </script>
 
+<style>
+  .vote-icon {
+    cursor: pointer;
+  }
+
+  .upvoted,
+  .downvoted {
+    color: red;
+  }
+
+  .card-deck .card {
+    margin-bottom: 20px;
+  }
+</style>
 
 {% endblock %}

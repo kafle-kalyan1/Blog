@@ -1,0 +1,77 @@
+{% extends "index.html" %}
+
+{% block title %}
+    <title>Profile</title>
+{% endblock title %}
+
+{% block container %}
+    <div class="container">
+        <h2>Profile</h2>
+        <form method="POST" enctype="multipart/form-data" action="{% url 'profile_update' %}" >
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" value="{{ username }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control" value="{{ email }}">
+            </div>
+            <div class="form-group">
+                <label for="avatar">Avatar</label>
+                <input type="file" id="avatar" name="avatar" class="form-control-file">
+            </div>
+            <div class="form-group">
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio" class="form-control" rows="4">{{ bio }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" name="dob" class="form-control" value="{{ dob }}">
+            </div>
+        
+            <button class="btn btn-primary" type="submit">Save Changes</button>
+        </form>
+    </div>
+
+    <style>
+      .container {
+          max-width: 400px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #f8f9fa;
+          border-radius: 5px;
+      }
+  
+      h2 {
+          text-align: center;
+          margin-bottom: 20px;
+          color: #007bff;
+      }
+  
+      label {
+          font-weight: bold;
+          color: #343a40;
+      }
+  
+      .form-control {
+          border-color: #007bff;
+      }
+  
+      .form-control:focus {
+          box-shadow: none;
+          border-color: #007bff;
+      }
+  
+      .btn-primary {
+          background-color: #007bff;
+          border-color: #007bff;
+      }
+  
+      .btn-primary:hover {
+          background-color: #0056b3;
+          border-color: #0056b3;
+      }
+  </style>
+  
+{% endblock container %}
