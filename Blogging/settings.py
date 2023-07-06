@@ -166,13 +166,12 @@ USE_I18N = True
 USE_TZ = True
 
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+STATIC_URL = 'statics/'
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'statics'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfile_build', 'statics')
 
-
-# MEDIA_ROOT = ''
-# MEDIA_URL = '/media/'
+MEDIA_ROOT = ''
+MEDIA_URL = '/media/'
 
 # https://stackoverflow.com/questions/29186343/django-ckeditor
 # CKEditor settings
