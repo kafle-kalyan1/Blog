@@ -1,10 +1,28 @@
+# Ignore compiled Python files
+*.pyc
 
+# Ignore the virtual environment directory (if using virtualenv)
+venv/
 env/
+.env
 
+# Ignore the database file (if using SQLite)
 *.db
 
+# Ignore the local settings file
+local_settings.py
+
+# Ignore IDE-specific files (if using PyCharm, VS Code, or other IDEs)
 .idea/
 .vscode/
 
-*.env
+# Ignore log files
+*.log
 
+# Ignore cache directories
+__pycache__/
+.cache/
+
+# Ignore deployment-specific files (if using Heroku, AWS, etc.)
+*.env
+.DS_Store
