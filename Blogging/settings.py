@@ -166,9 +166,9 @@ USE_I18N = True
 USE_TZ = True
 
 
-STATIC_URL = 'statics/'
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'statics'),
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfile_build', 'statics')
+STATIC_URL = 'static/'
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiless_build', 'static')
 
 MEDIA_ROOT = ''
 MEDIA_URL = '/media/'
