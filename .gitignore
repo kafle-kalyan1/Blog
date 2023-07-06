@@ -6,7 +6,7 @@ venv/
 env/
 .env
 # Ignore the project's static files (if collected statically)
-static/
+# static/
 
 # Ignore the project's media files (if using file uploads)
 media/
