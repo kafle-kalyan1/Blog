@@ -13,6 +13,7 @@ jsmin==3.0.1
 Markdown==3.4.3
 Pillow==9.5.0
 psycopg2-binary==2.9.6
+python-dotenv==1.0.0
 requests==2.31.0
 six==1.16.0
 sqlparse==0.4.4

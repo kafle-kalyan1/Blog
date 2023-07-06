@@ -18,6 +18,8 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
+from dotenv import load_dotenv
+load_dotenv()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,11 +30,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-sb4ambg1+t5xhoj^!diwpknh8)ex94a%)se5m6jl7@q5d6_)0v'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = False
+#DEBUG = True
+DEBUG = False
 
 # ALLOWED_HOSTS = ["*"]
 ALLOWED_HOSTS = [".vercel.app", ".now.sh", "127.0.0.1", "localhost","192.168.1.9"]
@@ -40,8 +42,16 @@ ALLOWED_HOSTS = [".vercel.app", ".now.sh", "127.0.0.1", "localhost","192.168.1.9
 
 # Application definition
 
-INSTALLED_APPS = [
+EXTERNAL_APPS = [
+    'home.apps.HomeConfig',
+    'Blog',
+    'Account',
+    'cloudinary',
+    'cloudinary_storage',
     
+]
+
+BUILD_IN_APPS = [
     "ckeditor",
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,13 +59,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home.apps.HomeConfig',
-    'Blog',
-    'Account',
-    'cloudinary',
-    'cloudinary_storage',
+  
 
-]
+]# ADDING EXTERNAL APPS
+INSTALLED_APPS = EXTERNAL_APPS + BUILD_IN_APPS
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -105,20 +114,15 @@ DATABASES = {
     #     'PASSWORD': '',
     #     'HOST': '127.0.0.1',
     #     'PORT': '3306',
-    # }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'railway',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'xvhDY209BSutkrfiQJwz',
-    #     'HOST': 'containers-us-west-165.railway.app',
-    #     'PORT': '7080',
     # },
+    
+    
+    # FOR RAILWAY DATABASE
       'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'kfP8b4V6XnAqkg0q1fSL',
+        'PASSWORD':  os.environ.get('RAILWAY_API_PASSWORD'),
         'HOST': 'containers-us-west-14.railway.app',
         'PORT': '5818',
     },
@@ -197,17 +201,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# FOR BOOTSTRAP MESSAGE 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
+# CLOUDINARY settings for ONLINE FILES.
 cloudinary.config( 
-  cloud_name = "dfvekucsr", 
-  api_key = "836751785545774", 
-  api_secret = "ZEfF3oTXFqCMxp_DsyXBD4kA5rg" 
+  cloud_name =  os.environ.get('CLOUDINARY_CLOUD_NAME'), 
+  api_key =  os.environ.get('CLOUDINARY_API_KEY'), 
+  api_secret =  os.environ.get('CLOUDINARY_API_SECRET') 
 )
 
 # DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage' 
 # STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
+
 

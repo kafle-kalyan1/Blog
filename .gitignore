@@ -4,7 +4,7 @@
 # Ignore the virtual environment directory (if using virtualenv)
 venv/
 env/
-
+.env
 # Ignore the project's static files (if collected statically)
 static/
 
