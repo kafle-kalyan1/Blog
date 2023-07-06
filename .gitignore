@@ -5,11 +5,6 @@
 venv/
 env/
 .env
-# Ignore the project's static files (if collected statically)
-# static/
-
-# Ignore the project's media files (if using file uploads)
-media/
 
 # Ignore the database file (if using SQLite)
 *.db
