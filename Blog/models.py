@@ -7,17 +7,21 @@ from django.utils import timezone
 
 
 
+class Category(models.Model):
+    id = models.AutoField(primary_key=True)
+    category = models.CharField(max_length=150, default="General")
 class Blog(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=250)
     description = RichTextField()
     datetime = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     coverImage = CloudinaryField('image')
+    is_published = models.BooleanField(default=False)
+    categories = models.OneToOneField(Category, on_delete=models.SET_NULL, null=True)
 
     
-    # categories = models.ManyToManyField(Category)
-    # is_published = models.BooleanField(default=False)
 
     
     def __str__(self):

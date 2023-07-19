@@ -9,6 +9,7 @@ def handler404(request, exception):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #  path('admin/', include('admin_soft.urls')),
     path('', include("home.urls")),
     path('blog/', include("Blog.urls")),
     path('account/', include("Account.urls")),

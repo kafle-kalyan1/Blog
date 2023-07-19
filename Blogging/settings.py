@@ -33,11 +33,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
 # ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = [".vercel.app", ".now.sh", "127.0.0.1", "localhost","192.168.1.9"]
+ALLOWED_HOSTS = [".vercel.app", ".now.sh",
+                 "127.0.0.1", "localhost", "192.168.1.9"]
 
 
 # Application definition
@@ -48,23 +49,25 @@ EXTERNAL_APPS = [
     'Account',
     'cloudinary',
     'cloudinary_storage',
+    "ckeditor",
+    'django.contrib.staticfiles',
     
+
+
 ]
 
 BUILD_IN_APPS = [
-    "ckeditor",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-  
 
-]# ADDING EXTERNAL APPS
+
+]  # ADDING EXTERNAL APPS
 INSTALLED_APPS = EXTERNAL_APPS + BUILD_IN_APPS
 
-
+MAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -115,17 +118,29 @@ DATABASES = {
     #     'HOST': '127.0.0.1',
     #     'PORT': '3306',
     # },
-    
-    
+
+
     # FOR RAILWAY DATABASE
-      'default': {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'railway',
+    #     'USER': 'postgres',
+    #     'PASSWORD':  os.environ.get('RAILWAY_API_PASSWORD'),
+    #     'HOST': 'containers-us-west-14.railway.app',
+    #     'PORT': '5818',
+    # },
+    
+
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD':  os.environ.get('RAILWAY_API_PASSWORD'),
-        'HOST': 'containers-us-west-14.railway.app',
-        'PORT': '5818',
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': '5432',
+        'NAME': os.environ.get('POSTGRES_DATABASE'),
+        'USER': 'default',
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
     },
+
+
 
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
@@ -167,9 +182,10 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
-
 
 
 MEDIA_ROOT = ''
@@ -178,19 +194,13 @@ MEDIA_URL = '/media/'
 # https://stackoverflow.com/questions/29186343/django-ckeditor
 # CKEditor settings
 # CKEDITOR_UPLOAD_PATH = "uploads/"
-# CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
-# #This ensures you have all toolbar icons
-# CKEDITOR_CONFIGS = {
-#     'default': {
-#         'toolbar': None, 
-#         },
-#     }
-
-# STATIC_URL = '/static/'
-    
-# # STATICFILES_DIRS = [
-# #     os.path.join(BASE_DIR, 'static'),
-# # ]
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+# This ensures you have all toolbar icons
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': None,
+    },
+}
 
 
 # STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
@@ -202,19 +212,15 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# FOR BOOTSTRAP MESSAGE 
+# FOR BOOTSTRAP MESSAGE
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
 # CLOUDINARY settings for ONLINE FILES.
-cloudinary.config( 
-  cloud_name =  os.environ.get('CLOUDINARY_CLOUD_NAME'), 
-  api_key =  os.environ.get('CLOUDINARY_API_KEY'), 
-  api_secret =  os.environ.get('CLOUDINARY_API_SECRET') 
+cloudinary.config(
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET')
 )
-
-# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage' 
-# STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
-
 
