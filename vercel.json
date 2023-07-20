@@ -8,7 +8,7 @@
      },
      {
        "src": "build_files.sh",
-       "use": "@vercel/static/",
+       "use": "@vercel/static",
        "config": {
          "distDir": "staticfiles_build"
        }
