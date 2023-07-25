@@ -8,8 +8,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 
 # Create your views here.
 def blog(request):
-    AllBlogs = Blog.objects.all()
-
+    AllBlogs = Blog.objects.filter(is_published=True)
     return render(request, 'Blog/blog.html', {"AllBlogs": AllBlogs})
 
 
@@ -42,7 +41,7 @@ def search_view(request):
     results = Blog.objects.filter(
         Q(title__icontains=query.strip()) |
         Q(description__icontains=query.strip())
-    )
+    ) & Blog.objects.filter(is_published=True)
     context = {
         'query': query,
         'results': results

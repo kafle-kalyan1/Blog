@@ -33,8 +33,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = False
+# DEBUG = True
+DEBUG = False
 
 # ALLOWED_HOSTS = ["*"]
 ALLOWED_HOSTS = [".vercel.app", ".now.sh",
@@ -45,6 +45,7 @@ ALLOWED_HOSTS = [".vercel.app", ".now.sh",
 
 EXTERNAL_APPS = [
     'home.apps.HomeConfig',
+    "semantic_admin",
     'Blog',
     'Account',
     'cloudinary',
@@ -89,6 +90,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
+                
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',

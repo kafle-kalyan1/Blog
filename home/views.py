@@ -10,9 +10,9 @@ from django.contrib.auth.decorators import login_required
 
 def home(request):
 
-    most_viewed = BlogView.objects.order_by('-views')[:10]
+    most_viewed =  BlogView.objects.filter(blog__is_published=True).order_by('-views')[:10]
 
-    recent_blogs = Blog.objects.order_by('-datetime')[:10]
+    recent_blogs = Blog.objects.filter(is_published=True) & Blog.objects.order_by('-datetime')[:10]
 
     context = {
         'most_viewed': most_viewed,

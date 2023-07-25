@@ -12,20 +12,26 @@ class Category(models.Model):
     category = models.CharField(max_length=150, default="General")
     def __str__(self):
         return self.category
+    
+
 class Blog(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=250)
     description = RichTextField()
     datetime = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
     coverImage = CloudinaryField('image')
     is_published = models.BooleanField(default=False)
     categories = models.OneToOneField(Category, on_delete=models.SET_NULL, null=True)
-
     
+    class Meta:
+        ordering = ['-datetime']
+        indexes = [
+        models.Index(fields=['-datetime']),
+        ]
 
-    
+
     def __str__(self):
         return self.title
 
