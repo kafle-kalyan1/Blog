@@ -21,9 +21,9 @@ class Blog(models.Model):
     description = RichTextField()
     datetime = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
-    coverImage = CloudinaryField('image')
+    coverImage = CloudinaryField('image', blank=True, null=True)
     is_published = models.BooleanField(default=False)
-    categories = models.OneToOneField(Category, on_delete=models.SET_NULL, null=True)
+    categories = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     
     class Meta:
         ordering = ['-datetime']
